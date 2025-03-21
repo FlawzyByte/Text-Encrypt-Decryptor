@@ -12,14 +12,14 @@ section .text
     global _start
 
 _start:
-    ; Display prompt to user
+    
     mov eax, 4
     mov ebx, 1
     mov ecx, enter_message
     mov edx, 16
     int 0x80
 
-    ; Read user input
+    
     mov eax, 3
     mov ebx, 0
     mov ecx, input_msg
@@ -27,14 +27,14 @@ _start:
     int 0x80
     mov ecx, eax                  ; Store length of input in ECX
 
-    ; Remove newline if present
+    
     dec ecx
     mov byte [input_msg + ecx], 0
 
     ; Encrypt input by shifting each character by +2
     mov esi, input_msg
     mov edi, encrypted_msg
-    mov edx, ecx                  ; Preserve original length in EDX for printing
+    mov edx, ecx                  
 
 encrypt_loop:
     dec ecx
@@ -52,21 +52,21 @@ print_encrypted:
     mov edx, 19
     int 0x80
 
-    ; Display encrypted message up to original length
+    
     mov eax, 4
     mov ebx, 1
     mov ecx, encrypted_msg
     mov edx, edx
     int 0x80
 
-    ;print newline
+    
     mov eax, 4
     mov ebx, 1
     mov ecx, newline
     mov edx, 1
     int 0x80
 
-    ; Decrypt by shifting each character back by -2
+    
     mov ecx, edx
     mov esi, encrypted_msg
 
@@ -79,21 +79,20 @@ decrypt_loop:
     jmp decrypt_loop
 
 print_decrypted:
-    ; Display "Decrypted message" label
     mov eax, 4
     mov ebx, 1
     mov ecx, decrypted_msg_label
     mov edx, 19
     int 0x80
 
-    ; Display decrypted message
+   
     mov eax, 4
     mov ebx, 1
     mov ecx, encrypted_msg
     mov edx, edx
     int 0x80
 
-    ; Exit
+ 
     mov eax, 1
     xor ebx, ebx
     int 0x80
